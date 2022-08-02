@@ -1,4 +1,5 @@
 require 'uri'
+require "csv"
 
 url_array = [
   'https://www.amazon.co.jp/%E3%82%B0%E3%83%AC%E3%83%B4%E3%82%A3%E3%82%AA-%E3%83%AA%E3%83%A5%E3%83%83%E3%82%AF-%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%83%AA%E3%83%A5%E3%83%83%E3%82%AF-AIN_HYT_SWN_businessryukku_00-%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF/dp/B085HLVJYP',
@@ -8,13 +9,16 @@ url_array = [
   'https://www.amazon.co.jp/SUNOGE-%E3%83%90%E3%83%83%E3%82%AF%E3%83%91%E3%83%83%E3%82%AF-%E3%83%AA%E3%83%A5%E3%83%83%E3%82%AF%E3%82%B5%E3%83%83%E3%82%AF-%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%83%AA%E3%83%A5%E3%83%83%E3%82%AF-%E3%83%A9%E3%83%83%E3%83%97%E3%83%88%E3%83%83%E3%83%97%E3%83%90%E3%83%83%E3%82%B0/dp/B08XHS9FQP'
 ]
 
-p "商品ID, 商品名"
-
-url_array.each do |url|
-    str = URI.decode(url)
-    array = str.split("/")
-    p array[5] + "," + array[3]
+CSV.open('sample.csv', 'w') do |csv|
+  csv << ["商品ID", "商品名"]
+  url_array.each do |url|
+      str = URI.decode(url)
+      array = str.split("/")
+      csv << [array[5], array[3]]
+    end
 end
+
+
 
 # 実行結果:
 # "商品ID, 商品名"
